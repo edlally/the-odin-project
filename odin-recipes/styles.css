@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'geist';
+    src: url('/assets/geist-font-1.5.0/Geist-ExtraLight.ttf');
+}
+
+
+h1, h2, h3, h4, h5, h6, li, p {
+    padding: 0px 20px;
+}
+
+a {
+    margin: 20px;
+}
+
+body {
+    font-family: 'geist';
+    background-image: url('/assets/bg.jpg');
+    background-position: 100%;
+}
+
+p {
+    font-size: 1.25rem;
+}
+
+li {
+    font-size: 1.1rem;
+}
+
+.fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+.fill img {
+    flex-shrink: 0;
+    max-width: 70%;
+    min-width: 20%;
+}
+
+.intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+}
+
+.description {
+    padding: 50px;
+}
+
+@media (min-width: 500px) {
+    .intro {
+        flex-wrap: nowrap;
+    }
+}
+
