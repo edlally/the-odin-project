@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navy-blue: #1F2937;
+    --main-text: #F9FAF8;
+    --secondary-text: #E5E7EB;
+    --button-blue: #3882F6;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+#nav-cont {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20%;
+    gap: 50px;
+    background-color: var(--navy-blue);
+}
+
+.logo {
+    color: var(--main-text);
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--main-text);
+}
+
+#welcome-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 50px 20%;
+    background-color: var(--navy-blue);
+}
+
+#welcome-cont img {
+    flex: 1;
+    max-width: 50%;
+    height: auto;
+    object-fit: contain; 
+    display: block;
+}
+
+.welcome-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.welcome-text h1 {
+    color: var(--main-text);
+}
+
+.welcome-text p {
+    color: var(--secondary-text);
+}
+
+.welcome-text button {
+    background-color: var(--button-blue);
+    border-color: transparent;
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: var(--main-text);
+}
+
