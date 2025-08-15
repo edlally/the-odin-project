@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+
+    // 1. Get random computer choice
+    function getComputerChoice () {
+
+        // create array of choices
+        const choicesArray = ["rock", "paper", "scissors"];
+
+        // choose a random index (0, 1, 2)
+        let index = Math.floor(Math.random() * 3);
+        console.log(index);
+
+        // return computer choice
+        return choicesArray[index];
+    };
+
+    // 2. Get typed human choice
+    function getHumanChoice () {
+
+        // store choice that user inputs on a popup prompt
+        const choice = prompt("Please choose rock, paper, or scissors", "rock").toLowerCase();
+        console.log(choice)
+
+        // return the users choice
+        return choice;
+    };
+
+
+    // 3. Declare the players score variables
+    let humanScore = 0;
+    let computerScore = 0;
+
+    // 4. Create the logic to play a single round
+    function playRound(humanChoice, computerChoice) {
+        // check if the choices are the same (draw)
+        // check if the human won -- if not then the computer must have won.
+        if (computerChoice === humanChoice) {
+            console.log(`Its a tie! You both chose ${humanChoice}.`);
+        } else if (
+        humanChoice === "rock" && computerChoice === "scissors" 
+        || humanChoice === "paper" && computerChoice === "rock"
+        || humanChoice === "scissors" && computerChoice === "paper") {
+            console.log(`You win! ${humanChoice} beats ${computerChoice}!`); 
+            humanScore++;   
+        } else {
+            console.log(`You lose! ${computerChoice} beats ${humanChoice}!`);
+            computerScore++;
+
+        };
+    };
+
+    // 5. Create the logic to play a full game loop
+    function playGame (rounds) {
+        // loop the game for chosen rounds
+        for (let i = 0; i < rounds; i++) {
+
+            // store choices in variables
+            let computerChoice = getComputerChoice();
+            let humanChoice = getHumanChoice();
+
+            // begin a round with the new choices
+            playRound(humanChoice, computerChoice);
+
+            // log the score
+            console.log(`The score is: \nhuman ${humanScore}\ncomputer ${computerScore}`);
+        };
+
+        // log the winner
+        if (humanScore === computerScore) {
+            console.log("It's a tie! ");
+            console.log(`The final score is: \nhuman ${humanScore}\ncomputer ${computerScore}`);            
+        } else if (humanScore > computerScore) {
+            console.log("You win!");
+            console.log(`The final score is: \nhuman ${humanScore}\ncomputer ${computerScore}`);            
+        } else {
+            console.log("You lose!");
+            console.log(`The final score is: \nhuman ${humanScore}\ncomputer ${computerScore}`);            
+        };
+    };
+
+
+
+
+
+    playGame(5)
+
+
+</script>
+
+</html>
