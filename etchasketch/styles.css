@@ -29,7 +29,7 @@
     border-radius: 20px;
     overflow: hidden;
     box-sizing: content-box;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.247);
 
 }
@@ -96,8 +96,10 @@
 
 .box {
     flex-shrink: 0;
+    transition: 1s cubic-bezier(.035,1.08,.02,.97);
 }
 
 .box:hover {
-    background-color: rgb(228, 228, 228);
+    background-color: rgba(228, 228, 228, 1);
+    
 }
