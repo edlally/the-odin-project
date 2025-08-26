@@ -16,7 +16,8 @@
     background-color: red;
     padding: 12px 48px  0 48px;
     border-radius: 50px;
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.247);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.247),
+                0px 0px 10000px rgba(255, 0, 0, 0.329);
 }
 
 #screen {
@@ -25,11 +26,14 @@
     width: 500px;
     height: 500px;
     border: 2px solid black;
-
+    border-radius: 20px;
+    overflow: hidden;
     box-sizing: content-box;
     background-color: white;
     box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.247);
+
 }
+
 
 #controls {
     display: flex;
@@ -54,6 +58,13 @@
     transition: 0.1s ease;
 }
 
+#sliderRange {
+    position: absolute;
+    left: 50%;
+    margin-bottom: 56px;
+    color: rgba(0, 0, 0, 0);
+    transition: .5s ease;
+}
 
 #gridSlider {
     appearance: none;
@@ -76,7 +87,17 @@
                 -1px 0px 4px rgba(0, 0, 0, 0.349);
 }
 
+#colorPicker {
+    width: 0;
+    border:none;
+    position: absolute;
+
+}
+
+.box {
+    flex-shrink: 0;
+}
 
 .box:hover {
-    background-color: black;
+    background-color: rgb(228, 228, 228);
 }
