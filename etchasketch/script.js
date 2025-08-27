@@ -67,7 +67,7 @@ clearBtn.addEventListener("click", addGrid);
 
 
 // trigger a click event on the hidden color picker box
-colorState = true;
+let colorState = true;
 
 colorBtn.addEventListener("click", () => {
     colorPicker.click();
