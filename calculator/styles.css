@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --gap: 20px;
+    --font-grey: rgb(58, 58, 58);
+    --shadow-dark: #cacaca7e;
+    --shadow-light: #f6f6f671;
+    --btn-shadow-dark: #cacacad8;
+    --btn-shadow-light: #f6f6f6cc;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e0e0e0;
+}
+
+#body {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--gap) * 1.5);
+    padding: var(--gap);
+    border-radius: 16px;
+    background: #e0e0e0;
+    box-shadow:  6px 6px 16px var(--btn-shadow-dark),
+                -6px -6px 16px var(--btn-shadow-light);
+}
+
+#screen {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+    height: 100px;
+    padding: var(--gap);
+    color: rgb(58, 58, 58);
+    border-radius: 10px;
+    background: #e0e0e0;
+    box-shadow: inset 6px 6px 13px var(--shadow-dark),
+                inset -6px -6px 13px var(--shadow-light);
+}
+
+#screen img {
+    position: absolute;
+    margin-bottom: 48px;
+}
+
+#btns {
+    display: flex;
+    gap: var(--gap);
+}
+
+#btns div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+#plus {
+    height: calc(100px + var(--gap))
+}
+
+#C, 
+#AC, 
+#MR, 
+#plus, 
+#sqrt, 
+#minus, 
+#mPlus, 
+#equals,
+#mMinus, 
+#divide, 
+#percent, 
+#multiply {
+    font-weight: 100;
+}
+
+
+.btn {
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: var(--font-grey);
+    border-radius: 10px;
+    background: #e0e0e0;
+    box-shadow:  6px 6px 13px var(--btn-shadow-dark),
+                -6px -6px 13px var(--btn-shadow-light);
+    transition: all .1s ease;
+}
+
+.btn:active {
+    font-size: 1.125rem;
+    border-radius: 10px;
+    background: #e0e0e0;
+    box-shadow: inset 6px 6px 13px var(--btn-shadow-dark),
+                inset -6px -6px 13px var(--btn-shadow-light);  
+}
