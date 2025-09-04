@@ -6,19 +6,71 @@
 
 :root {
     --gap: 20px;
-    --font-grey: rgb(58, 58, 58);
+    --bg: #e0e0e0;
+    --font-grey: #3a3a3a;
     --shadow-dark: #cacaca7e;
     --shadow-light: #f6f6f671;
     --btn-shadow-dark: #cacacad8;
     --btn-shadow-light: #f6f6f6cc;
+    --btn-size: 50px;
+    --dm-circle-transform: translate(0px);
 }
+
+.dark {
+    --bg: #1f1f1f;
+    --font-grey: #c5c5c5;
+    --shadow-dark: #35353581;
+    --shadow-light: #0909098e;
+    --btn-shadow-dark: #35353227;
+    --btn-shadow-light: #09090933;
+    --flex-mode: flex-end; 
+    --dm-circle-transform: translate(24px);
+
+}
+
+#dark {
+    position: absolute;
+    top: 24px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 48px;
+    height: 24px;
+    padding: 0 4px;
+    background-color: var(--bg);
+    border-radius: 20px;
+    box-shadow:  6px 6px 13px var(--btn-shadow-dark),
+                -6px -6px 13px var(--btn-shadow-light),
+                inset 6px 6px 13px var(--shadow-dark),
+                inset -6px -6px 13px var(--shadow-light);
+    transition: all .3s ease-in-out;
+}
+
+#darkCircle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: var(--dm-circle-transform);
+    background-color: var(--bg);
+    width: 16px;
+    height: 16px;
+    border-radius: 10px;
+    box-shadow:  3px 3px 4px var(--btn-shadow-dark),
+                -3px -3px 4px var(--btn-shadow-light);
+    transition: .3s ease-in-out;
+}
+#darkCircle img {
+    filter: invert(.2);
+}
+
 
 #container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #e0e0e0;
+    background-color: var(--bg);
+    transition: 0.3s ease-in-out;
 }
 
 #body {
@@ -27,31 +79,33 @@
     gap: calc(var(--gap) * 1.5);
     padding: var(--gap);
     border-radius: 16px;
-    background: #e0e0e0;
+    background: var(--bg);
     box-shadow:  6px 6px 16px var(--btn-shadow-dark),
                 -6px -6px 16px var(--btn-shadow-light);
+    transition: 0.3s ease-in-out;
 }
 
 #screen {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
     font-size: 2rem;
     height: 100px;
+    max-width: calc((var(--btn-size) * 5) + (var(--gap) * 4));
     padding: var(--gap);
-    color: rgb(58, 58, 58);
+    color: var(--font-grey);
     border-radius: 10px;
-    background: #e0e0e0;
+    background: var(--bg);
     box-shadow: inset 6px 6px 13px var(--shadow-dark),
                 inset -6px -6px 13px var(--shadow-light);
+    transition: 0.3s ease-in-out;
 }
 
-#screen img {
-    position: absolute;
-    margin-bottom: 48px;
-}
+
+
 
 #btns {
     display: flex;
@@ -65,7 +119,7 @@
 }
 
 #plus {
-    height: calc(100px + var(--gap))
+    height: calc((var(--btn-size) * 2) + var(--gap))
 }
 
 #C, 
@@ -89,23 +143,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
+    width: var(--btn-size);
+    height: var(--btn-size);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
     font-size: 1.25rem;
+    border-color: transparent;
     color: var(--font-grey);
     border-radius: 10px;
-    background: #e0e0e0;
+    background: var(--bg);
     box-shadow:  6px 6px 13px var(--btn-shadow-dark),
                 -6px -6px 13px var(--btn-shadow-light);
-    transition: all .1s ease;
+    transition: background .3s ease-in-out, 
+                box-shadow .3s ease-in-out, 
+                color .3s ease-in-out;
 }
 
 .btn:active {
-    font-size: 1.125rem;
+    font-size: 1.1rem;
     border-radius: 10px;
-    background: #e0e0e0;
+    background: var(--bg);
     box-shadow: inset 6px 6px 13px var(--btn-shadow-dark),
                 inset -6px -6px 13px var(--btn-shadow-light);  
+}
+
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    padding: 16px;
+    background-color: transparent;
+    color: var(--font-grey);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: .3s ease-in-out;
 }
