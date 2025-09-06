@@ -7,80 +7,240 @@ const btnList = document.getElementsByName("btn")
 const dark = document.querySelector('#dark');
 const footer = document.querySelector('footer');
 const stored = document.querySelector('#storedValue');
+const plus = document.querySelector('#plus');
+const minus = document.querySelector('#minus');
+const multiply = document.querySelector('#multiply');
+const divide = document.querySelector('#divide');
+const slider = document.querySelector('#slider');
+const root = document.documentElement;
 
+slider.addEventListener("input", () => {
+    root.style.setProperty('--btn-size', `${slider.value}px`);
+    console.log(slider.value)
+})
 
-// get display and display the numbers pressed on the display
-// store in currentValue variable too
-let currentValue = []
-let storedValue;
-let operatorState;
+// initialise state variable
+let state = {
+    currentValue: "",
+    storedValue: "",
+    pendingOperator: "",
+    waitingForNextValue: false,
+    memoryValue: 0,
+};
 
-function addToScreen(num) {
-    if (operatorState) {
-        display.innerHTML = "";
-        stored.innerHTML = storedValue;
+function revertToGrey () {
+    plus.style.color = "var(--font-grey)";
+    minus.style.color = "var(--font-grey)";
+    multiply.style.color = "var(--font-grey)";
+    divide.style.color = "var(--font-grey)";
+    plus.style.textShadow = "none";
+    minus.style.textShadow = "none";
+    multiply.style.textShadow = "none";
+    divide.style.textShadow = "none";
+}
+
+function resizeText() {
+    if (display.innerHTML.length > 15) {
+        if (Number(display.style.fontSize[0]) >= 1) {
+            display.style.fontSize = `${2 - display.innerHTML.length / 30}rem`;
+        }
+    } else {
+        display.style.fontSize = "2rem";
+
     }
-    display.innerHTML += num;
-    currentValue.push(num);  
-    operatorState = false;  
 }
 
-function allClear () {
-    currentValue = [];
-    storedValue = "";
-    operatorState = false;
-    display.innerHTML = "";
-}
-
-function add () {
-    if (!storedValue) {
-        storedValue = Number(currentValue.join(""));
-        currentValue = [];
-        operatorState = "+";
-    } else {
-        if (!operatorState) {
-            console.log(currentValue)
-            display.innerHTML = Number(currentValue.join("")) + storedValue;
-            storedValue = Number(currentValue.join("")) + storedValue;
-            currentValue = [];
-        }
-        operatorState = "+";
-    };
-}
-
-function subtract () {
-    if (!storedValue) {
-        storedValue = Number(currentValue.join(""));
-        currentValue = [];
-    } else {
-        if (!operatorState) {
-            console.log(currentValue)
-            display.innerHTML = storedValue - Number(currentValue.join(""));
-            storedValue = storedValue - Number(currentValue.join(""));
-            currentValue = [];
-        }
-        operatorState = "-";
-    };
-}
-
-function calculate (operatorState) {
-    let value;
-    switch (operatorState) {
+function highlightPendingOperator (op) {
+    switch (op) {
         case "+":
-            value = storedValue + Number(currentValue.join(""));
+            plus.style.color = "rgba(255, 153, 0, 1)";
+            plus.style.textShadow = "0 0 10px rgba(255, 136, 0, .5)"
             break;
         case "-":
-            value = storedValue - Number(currentValue.join(""));
+            minus.style.color = "rgba(255, 153, 0, 1)";
+            minus.style.textShadow = "0 0 10px rgba(255, 136, 0, .5)"
             break;
-        case "*":
-            value = storedValue * Number(currentValue.join(""));
+        case "x":
+            multiply.style.color = "rgba(255, 153, 0, 1)";
+            multiply.style.textShadow = "0 0 10px rgba(255, 136, 0, .5)"
             break;
         case "/":
-            value = storedValue / Number(currentValue.join(""));
+            divide.style.color = "rgba(255, 153, 0, 1)";
+            divide.style.textShadow = "0 0 10px rgba(255, 136, 0, .5)"
+            break;
+    };
+}
+
+// logic to add numbers to screen and update state variable
+function inputNumber(num) {
+    if (state.waitingForNextValue) {
+        display.innerHTML = "";
+    }
+    state.currentValue += num;
+    display.innerHTML = state.currentValue;
+    console.table(state);
+    state.waitingForNextValue = false;
+
+
+    revertToGrey();
+
+    resizeText();
+}
+
+// reset state
+function allClear () {
+    state.currentValue = "";
+    state.storedValue = "";
+    state.pendingOperator = "";
+    state.waitingForNextValue = false;
+    display.innerHTML = "";
+    revertToGrey();
+}
+
+function operate (op) {
+    if (state.storedValue === "") {
+        // if there is no stored value then add curr to store, clear screen
+        state.storedValue = state.currentValue;
+        state.currentValue = "";
+        state.pendingOperator = `${op}`;
+        state.waitingForNextValue = true;
+
+    } else {
+        // there is a stored value
+        switch (state.pendingOperator) {
+            case "+":
+                state.storedValue = Number(state.storedValue) + Number(state.currentValue);
+                state.currentValue = "";
+                display.innerHTML = state.storedValue;
+                state.pendingOperator = `+`;
+                state.waitingForNextValue = true;
+                break;
+            case "-":
+                state.storedValue = Number(state.storedValue) - Number(state.currentValue);
+                state.currentValue = "";
+                display.innerHTML = state.storedValue;
+                state.pendingOperator = `-`;
+                state.waitingForNextValue = true;
+                break;
+            case "x":
+                if (state.currentValue.length > 0) {
+                    state.storedValue = Number(state.storedValue) * Number(state.currentValue);
+                    state.currentValue = "";
+                    display.innerHTML = state.storedValue;
+                    state.pendingOperator = `x`;
+                    state.waitingForNextValue = true;
+                }
+                break;
+            case "/":
+                if (state.currentValue.length > 0 && state.currentValue != 0) {
+                    state.storedValue = Number(state.storedValue) / Number(state.currentValue);
+                    state.currentValue = "";
+                    display.innerHTML = state.storedValue;
+                    state.pendingOperator = `/`;
+                    state.waitingForNextValue = true;
+                } else {
+                    allClear();
+                    display.innerHTML = "ERROR!";
+                }
+                break;
+        }
+    }
+    console.table(state);
+    if (op !== "=") {
+        state.pendingOperator = `${op}`;
+    }
+
+    if (state.waitingForNextValue) {
+        highlightPendingOperator(op);
+    }
+
+    revertToGrey()
+
+    resizeText();
+}
+
+function transform (op) {
+    switch (op) {
+
+        case "sqrt":
+            if (state.currentValue.length > 0) {
+                if (Number(state.currentValue) <= 0) {
+                    allClear();
+                    display.innerHTML = "ERROR!";
+                } else {
+                    state.currentValue = String(Math.sqrt(Number(state.currentValue)));
+                    display.innerHTML = String(state.currentValue);
+                }
+            } else {
+                if (Number(state.storedValue) <= 0) {
+                    allClear();
+                    display.innerHTML = "ERROR!";
+                } else {
+                    state.storedValue = String(Math.sqrt(Number(state.storedValue)));
+                    display.innerHTML = String(state.storedValue);
+                }
+            }
+            resizeText();
+            break;
+
+        case "plusMinus":
+            if (state.currentValue.length != 0 && state.currentValue != -0) {
+                state.currentValue = String(Number(state.currentValue) * -1);
+                display.innerHTML = String(state.currentValue);
+            } else {
+                state.storedValue = String(Number(state.storedValue) * -1);
+                display.innerHTML = String(state.storedValue);
+            }
+            resizeText();
+            break;
+
+        case "percent":
+            if (state.currentValue.length != 0 && state.currentValue != -0) {
+                state.currentValue = String(Number(state.currentValue) / 100);
+                display.innerHTML = String(state.currentValue);
+            } else {
+                state.storedValue = String(Number(state.storedValue) / 100);
+                display.innerHTML = String(state.storedValue);
+            }
+            resizeText();
+            break;
+
+        case "clear":
+            if (state.currentValue.length != 0 && state.currentValue != -0) {
+                state.currentValue = "";
+                display.innerHTML = "";
+            } else {
+                state.storedValue = "";
+                display.innerHTML = "";
+            }
+            console.table(state)
+            break;
+
+        case "mPlus":
+            if (state.currentValue.length != 0 && state.currentValue != -0) {
+                state.memoryValue = Number(state.currentValue) + Number(state.memoryValue);
+            } else {
+                state.memoryValue = Number(state.storedValue) + Number(state.memoryValue);
+            }
+            console.table(state)
+            break;
+
+        case "mMinus":
+            if (state.currentValue.length != 0 && state.currentValue != -0) {
+                state.memoryValue = Number(state.memoryValue) - Number(state.currentValue);
+            } else {
+                state.memoryValue = Number(state.memoryValue) - Number(state.storedValue);
+            }
+            console.table(state)
+            break;
+
+        case "MR":
+            state.currentValue = state.memoryValue;
+            display.innerHTML = state.memoryValue;
             break;
     }
-    
-}   
+}
+
 
 btns.addEventListener("click", (e) => {
     const isButton = e.target.nodeName === 'BUTTON';
@@ -90,64 +250,90 @@ btns.addEventListener("click", (e) => {
     
     switch (e.target.id) {
         case "one":
-            addToScreen(1);
+            inputNumber(1);
             break;
         case "two":
-            addToScreen(2);
+            inputNumber(2);
             break;
         case "three":
-            addToScreen(3);
+            inputNumber(3);
             break;
         case "four":
-            addToScreen(4);
+            inputNumber(4);
             break;
         case "five":
-            addToScreen(5);
+            inputNumber(5);
             break;
         case "six":
-            addToScreen(6);
+            inputNumber(6);
             break;
         case "seven":
-            addToScreen(7);
+            inputNumber(7);
             break;
         case "eight":
-            addToScreen(8);
+            inputNumber(8);
             break;
         case "nine":
-            addToScreen(9);
+            inputNumber(9);
             break;
         case "zero":
-            addToScreen(0);
+            inputNumber(0);
             break;
         case "point":
-            if (!currentValue.includes(".")) {
-                addToScreen(".");
-            };
+            let val = state.currentValue;
+
+            // Ensure it's a string
+            let str = Array.isArray(val) ? val.join("") : String(val);
+
+            if (!str.includes(".")) {
+                inputNumber(".");
+            }
             break;
         case "plus":
-            add();
+            operate("+");
             break;
         case "minus":
-            subtract();
+            operate("-");
+            break;
+        case "multiply":
+            operate("x");
+            break;
+        case "divide":
+            operate("/");
             break;
         case "equals":
-            console.log("Equals");
+            operate("=");
             break;
         case "AC":
             allClear();
             break
-        }
-        console.log("current value: " + currentValue);
-        console.log("stored value: " + storedValue);
-        console.log("operator state: " + operatorState)
-    })
+        case "C":
+            transform("clear");
+            break;
+        case "sqrt":
+            transform("sqrt");
+            break;
+        case "plusMinus":
+            transform("plusMinus");
+            break;
+        case "percent":
+            transform("percent");
+            break;
+        case "mPlus":
+            transform("mPlus");
+            break;
+        case "mMinus":
+            transform("mMinus");
+            break
+        case "MR": 
+            transform("MR");
+            break;
+        };
+    });
+
+
 
 dark.addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-
-// if an operator is pressed, add the value in display to a var and clear it
-    
-// if an operator is pressed again, calculate the value and clear display and save var again
-    

@@ -14,6 +14,7 @@
     --btn-shadow-light: #f6f6f6cc;
     --btn-size: 50px;
     --dm-circle-transform: translate(0px);
+    --invert: invert(0);
 }
 
 .dark {
@@ -25,8 +26,10 @@
     --btn-shadow-light: #09090933;
     --flex-mode: flex-end; 
     --dm-circle-transform: translate(24px);
+    --invert: invert(1);
 
 }
+
 
 #dark {
     position: absolute;
@@ -66,11 +69,50 @@
 
 #container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 24px;
     height: 100vh;
     background-color: var(--bg);
     transition: 0.3s ease-in-out;
+}
+
+#slider {
+    -webkit-appearance: none;  
+    appearance: none;
+    width: calc((var(--gap) * 6) + var(--btn-size) * 5); 
+    height: 25px; 
+    background: transparent; 
+    outline: none; 
+    opacity: 0.7; 
+    -webkit-transition: .2s; 
+    transition: opacity .2s;
+    border-radius: 10px;
+    padding: 0 4px;
+    box-shadow:  6px 6px 13px var(--btn-shadow-dark),
+                -6px -6px 13px var(--btn-shadow-light),
+                inset 6px 6px 13px var(--shadow-dark),
+                inset -6px -6px 13px var(--shadow-light);
+    transition: box-shadow .3s ease-in-out;
+}
+
+#slider::-webkit-slider-thumb {
+    background: var(--bg); 
+    border: none;
+    cursor: pointer; 
+    box-shadow:  3px 3px 4px var(--btn-shadow-dark),
+                -3px -3px 4px var(--btn-shadow-light);
+    transition: .3s ease-in-out;             
+}
+
+#slider::-moz-range-thumb {
+    background: var(--bg); 
+    border: none;
+    cursor: pointer; 
+    box-shadow:  3px 3px 4px var(--btn-shadow-dark),
+                -3px -3px 4px var(--btn-shadow-light);
+    transition: .3s ease-in-out;            
 }
 
 #body {
@@ -178,6 +220,7 @@ footer {
     padding: 16px;
     background-color: transparent;
     color: var(--font-grey);
+    filter: var(--invert);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: .3s ease-in-out;
 }
